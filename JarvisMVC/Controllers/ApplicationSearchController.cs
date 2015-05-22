@@ -1,5 +1,4 @@
-﻿using JarvisMVC.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,30 +8,103 @@ namespace JarvisMVC.Controllers
 {
     public class ApplicationSearchController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
         // GET: ApplicationSearch
-        public ActionResult Index(string searchString)
+        public ActionResult Index()
         {
-            var cust = from c in db.Customers
-                       select c;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                cust = cust.Where(s => s.Name.Contains(searchString));   
-            }
-            return View(cust);
+            return View();
         }
 
-        //public ActionResult Index(string id)
-        //{
-        //    var cust = from c in db.Customers
-        //               select c;
+        // GET: ApplicationSearch/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
 
-        //    if (!string.IsNullOrEmpty(id))
-        //    {
-        //        cust = cust.Where(s => s.Name.Contains(id));
-        //    }
-        //    return View(cust);
-        //    }
+        // GET: ApplicationSearch/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(string name)
+        {
+            //ViewBag.Message = "You have pressed YES.";
+            return View();
+
+            //try
+            //{
+            //    // TODO: Add insert logic here
+
+            //    return RedirectToAction("Index");
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
+        }
+
+        // POST: ApplicationSearch/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        
+
+
+        // GET: ApplicationSearch/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: ApplicationSearch/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ApplicationSearch/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: ApplicationSearch/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
