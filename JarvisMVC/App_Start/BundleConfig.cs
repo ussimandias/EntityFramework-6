@@ -27,6 +27,18 @@ namespace JarvisMVC
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            //Add
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+            "~/Scripts/jquery-ui-{version}.js",
+            "~/Scripts/jquery-ui.unobtrusive-{version}.js"));
+
+            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+            "~/Content/themes/base/jquery.ui.core.css",
+            "~/Content/themes/base/jquery.ui.datepicker.css",
+            "~/Content/themes/base/jquery.ui.theme.css")); 
+
+
+
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
