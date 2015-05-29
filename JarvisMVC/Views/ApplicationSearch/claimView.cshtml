@@ -1,0 +1,56 @@
+﻿@using System.Security.Claims
+@using JarvisMVC.Models
+@model List<JarvisMVC.Models.SearchCriteria>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>claimView</title>
+</head>
+<body>
+<div>
+    @using (Html.BeginForm())
+    {
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <table class="table table-striped table-bordered table-hover table-condensed" id="datatable">
+                        @{
+
+        foreach (var claim in Model)
+        {
+            <tr>
+
+               
+                <td> First Name : Model.FirstName</td>
+                <td>Claim Number: Model.ClaimNumber</td>
+                <td>Certificate Number: Model.CertificateNumber</td>
+                <td>Company Name: Model.CompanyName</td>
+                <td>Effective Date: Model.EffectiveDate</td>
+                <td>Account: Model.Account</td>
+                <td>Creditor: Model.Creditor</td>
+                <td>Loan Number: Model.LoanNumber</td>
+
+            </tr>
+        }
+                        }
+
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+</div>
+</body>
+</html>

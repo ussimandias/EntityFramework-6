@@ -10,12 +10,13 @@ namespace JarvisMVC.Controllers
     public class ApplicationSearchController : Controller
     {
 
+     
+    
         private readonly ISearchResultsService _resultsService;
 
-        public ApplicationSearchController()
-            : this(DependencyFactory.NewResultsService())
-        {
-
+        public ApplicationSearchController() : this(DependencyFactory.NewResultsService())
+        {         
+  
         }
 
         public ApplicationSearchController(ISearchResultsService resultsService)
@@ -29,17 +30,17 @@ namespace JarvisMVC.Controllers
             return View();
         }
 
-        //public ViewResult Index(string searchString)
-        //{
-            
-        //    //if (!String.IsNullOrEmpty(searchString))
-        //    //{
-        //    //    return View();
-        //    //}
+        public ActionResult claimView()
+        {
+            var claimCollection = new List<SearchCriteria>();
 
+            if (Session["SearchCollection"] != null)
+            {
+                claimCollection = (List<SearchCriteria>)Session["SearchCollection"];
+            }
 
-        //    return View();
-        //}
+            return View(claimCollection);
+        }
 
         // GET: ApplicationSearch/Details/5
         public ActionResult Details(int id)
@@ -53,42 +54,32 @@ namespace JarvisMVC.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult Index(string name)
-        //{
-        //    ViewBag.Message = "You have pressed YES.";
-        //    return View();
-
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
         // POST: ApplicationSearch/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+            
                 return View();
-            }
+            
         }
 
-        
+        [HttpPost]
+        public ActionResult Search(SearchCriteria newClaim)
+        {
+            var claimCollection = new List<SearchCriteria>();
 
+            if (Session["SearchCollection"] != null)
+            {
+                claimCollection.Add((SearchCriteria) Session["SearchCollection"]);
+
+
+            }
+            claimCollection.Add(newClaim);
+            Session["SearchCollection"] = claimCollection;
+
+            return RedirectToAction("Index");
+
+        }
 
         // GET: ApplicationSearch/Edit/5
         public ActionResult Edit(int id)
@@ -122,56 +113,36 @@ namespace JarvisMVC.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+            
                 return View();
-            }
+            
         }
+    }
 
-        public static class DependencyFactory
+    public static class DependencyFactory
+    {
+        public static ISearchResultsService NewResultsService()
         {
-            public static ISearchResultsService NewResultsService()
-            {
-                return new MockSearchResultsService();
-            }
+            return new MockSearchResultsService();
         }
+    }
 
-        public interface ISearchResultsService
+    public interface ISearchResultsService
+    {
+        List<Claim> FindClaims(string firstName, string lastName );
+    }
+
+    public class MockSearchResultsService : ISearchResultsService
+    {
+        public List<Claim> FindClaims(string firstName, string lastName)
         {
-            List<SearchCriteria> FindClaims(string firstName, string lastName, string claimNumber, string certificateNumber, string companyName, DateTimeOffset effectiveDate, int account, string creditor, int loanNumber) ;
+            return new List<Claim>(new []{new Claim{FirstName = "Bill", LastName = "Ryan"}});//throw new NotImplementedException();
         }
+    }
 
-        public class MockSearchResultsService : ISearchResultsService
-        {
-            public List<SearchCriteria> FindClaims(string firstName, string lastName, string claimNumber, string certificateNumber, string companyName, DateTimeOffset effectiveDate, int account, string creditor, int loanNumber)
-            {
-                return new List<SearchCriteria>(new[] {new SearchCriteria {
-                    Account = 1234, 
-                    CertificateNumber = "3435", 
-                    ClaimNumber = "45433", 
-                    CompanyName = "Fortegra", 
-                    Creditor = "Wells Fargo", 
-                    EffectiveDate = DateTime.Now, 
-                    FirstName = "Kevin", 
-                    LastName = "Love", 
-                    LoanNumber = 2345}});
-
-
-                //throw new NotImplementedException();
-            }
-        }
-
-        public class Claim
-        {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-
-        }
+    public class Claim
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

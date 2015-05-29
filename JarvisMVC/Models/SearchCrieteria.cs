@@ -50,5 +50,8 @@ namespace JarvisMVC.Models
         [Display(Name = "Loan Number")]
         public int LoanNumber { get; set; }
 
+
     }
+
+    
 }
