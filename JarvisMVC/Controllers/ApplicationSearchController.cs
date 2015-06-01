@@ -8,18 +8,15 @@ using JarvisMVC.Models;
 namespace JarvisMVC.Controllers
 {
     public class ApplicationSearchController : Controller
-    {
+    {        
+        private readonly MockDependencyInjection.ISearchResultsService _resultsService;
 
-     
-    
-        private readonly ISearchResultsService _resultsService;
-
-        public ApplicationSearchController() : this(DependencyFactory.NewResultsService())
+        public ApplicationSearchController() : this(MockDependencyInjection.DependencyFactory.NewResultsService())
         {         
   
         }
 
-        public ApplicationSearchController(ISearchResultsService resultsService)
+        public ApplicationSearchController(MockDependencyInjection.ISearchResultsService resultsService)
         {
             _resultsService = resultsService;
         }
@@ -28,6 +25,12 @@ namespace JarvisMVC.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Search()
+        {
+            var data = this._resultsService.FindPerson("", "", "", "", "", DateTimeOffset.Now, 0, "", 1);
+            return View(data);
         }
 
         public ActionResult claimView()
@@ -57,10 +60,8 @@ namespace JarvisMVC.Controllers
         // POST: ApplicationSearch/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
-        {
-            
-                return View();
-            
+        {          
+                return View();           
         }
 
         [HttpPost]
@@ -71,7 +72,6 @@ namespace JarvisMVC.Controllers
             if (Session["SearchCollection"] != null)
             {
                 claimCollection.Add((SearchCriteria) Session["SearchCollection"]);
-
 
             }
             claimCollection.Add(newClaim);
@@ -112,37 +112,8 @@ namespace JarvisMVC.Controllers
         // POST: ApplicationSearch/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
-        {
-            
-                return View();
-            
+        {          
+                return View();           
         }
-    }
-
-    public static class DependencyFactory
-    {
-        public static ISearchResultsService NewResultsService()
-        {
-            return new MockSearchResultsService();
-        }
-    }
-
-    public interface ISearchResultsService
-    {
-        List<Claim> FindClaims(string firstName, string lastName );
-    }
-
-    public class MockSearchResultsService : ISearchResultsService
-    {
-        public List<Claim> FindClaims(string firstName, string lastName)
-        {
-            return new List<Claim>(new []{new Claim{FirstName = "Bill", LastName = "Ryan"}});//throw new NotImplementedException();
-        }
-    }
-
-    public class Claim
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
+    }   
 }
