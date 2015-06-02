@@ -8,9 +8,7 @@ using JarvisMVC.Models;
 namespace JarvisMVC.Controllers
 {
     public class ApplicationSearchController : Controller
-    {
-
-     
+    {  
     
         private readonly ISearchResultsService _resultsService;
 
