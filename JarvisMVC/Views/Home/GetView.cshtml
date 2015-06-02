@@ -1,11 +1,5 @@
 ﻿@model IEnumerable<JarvisMVC.Models.SearchCriteria>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -72,14 +66,15 @@
                 @Html.DisplayFor(modelItem => item.LoanNumber)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Search" class="btn btn-default" />
+                    </div>
+                </div>
             </td>
         </tr>
     }
 
 </table>
-<div>
-    @Html.ActionLink("Search", "SearchClaim")
-</div>
+
+

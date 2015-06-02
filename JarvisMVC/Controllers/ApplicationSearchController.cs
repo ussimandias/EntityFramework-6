@@ -21,29 +21,55 @@ namespace JarvisMVC.Controllers
             _resultsService = resultsService;
         }
 
-        // GET: ApplicationSearch
+        //var data = claim.FirstName + claim.Account + claim.CertificateNumber + claim.CompanyName + claim.ClaimNumber + claim.Creditor + claim.EffectiveDate + claim.LastName + claim.LoanNumber ;
+             
+
+
         public ActionResult Index()
+        {
+            var claimCollection = new List<SearchCriteria>();
+
+            if (Session["ClaimCollection"] != null)
+            {
+                claimCollection = (List<SearchCriteria>)Session["ClaimCollection"];
+
+            }
+            return View(claimCollection);
+        }
+
+
+        [HttpGet]
+        public ActionResult SearchClaim()
         {
             return View();
         }
 
-        public ActionResult Search()
-        {
-            var data = this._resultsService.FindPerson("", "", "", "", "", DateTimeOffset.Now, 0, "", 1);
-            return View(data);
-        }
-
-        public ActionResult claimView()
+        [HttpPost]
+        public ActionResult SearchClaim(SearchCriteria newClaim)
         {
             var claimCollection = new List<SearchCriteria>();
 
-            if (Session["SearchCollection"] != null)
+            if (Session["ClaimCollection"] != null)
             {
-                claimCollection = (List<SearchCriteria>)Session["SearchCollection"];
+                claimCollection = (List<SearchCriteria>)Session["ClaimCollection"];
+
             }
 
-            return View(claimCollection);
+            claimCollection.Add(newClaim);
+            Session["ClaimCollection"] = claimCollection;
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
+        
+
+        
 
         // GET: ApplicationSearch/Details/5
         public ActionResult Details(int id)
@@ -57,29 +83,7 @@ namespace JarvisMVC.Controllers
             return View();
         }
 
-        // POST: ApplicationSearch/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {          
-                return View();           
-        }
-
-        [HttpPost]
-        public ActionResult Search(SearchCriteria newClaim)
-        {
-            var claimCollection = new List<SearchCriteria>();
-
-            if (Session["SearchCollection"] != null)
-            {
-                claimCollection.Add((SearchCriteria) Session["SearchCollection"]);
-
-            }
-            claimCollection.Add(newClaim);
-            Session["SearchCollection"] = claimCollection;
-
-            return RedirectToAction("Index");
-
-        }
+       
 
         // GET: ApplicationSearch/Edit/5
         public ActionResult Edit(int id)

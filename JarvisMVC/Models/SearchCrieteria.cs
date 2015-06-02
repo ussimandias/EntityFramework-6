@@ -30,7 +30,7 @@ namespace JarvisMVC.Models
         public string CompanyName { get; set; }
 
         [Display(Name = "Effective Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")] 
+        [DataType(DataType.Date)]
         public DateTimeOffset EffectiveDate { get; set; }
 
         //[Display(Name = "Social Security Number")]
