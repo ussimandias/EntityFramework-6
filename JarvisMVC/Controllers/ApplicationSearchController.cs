@@ -36,9 +36,14 @@ namespace JarvisMVC.Controllers
             if (Session["ClaimCollection"] != null)
             {
                 claimCollection = (List<SearchCriteria>)Session["ClaimCollection"];
+                return View(claimCollection);
 
             }
-            return View(claimCollection);
+            else
+            {
+                    return Content("Please enter data!");
+            }
+            
         }
 
 
@@ -53,11 +58,11 @@ namespace JarvisMVC.Controllers
         {
             var claimCollection = new List<SearchCriteria>();
 
-            if (Session["ClaimCollection"] != null)
-            {
+            //if (Session["ClaimCollection"] != null)
+            //{
                 claimCollection = (List<SearchCriteria>)Session["ClaimCollection"];
 
-            }
+            //}
 
             claimCollection.Add(newClaim);
             Session["ClaimCollection"] = claimCollection;
