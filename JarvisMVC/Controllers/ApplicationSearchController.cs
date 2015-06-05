@@ -22,10 +22,14 @@ namespace JarvisMVC.Controllers
         }
 
         //var data = claim.FirstName + claim.Account + claim.CertificateNumber + claim.CompanyName + claim.ClaimNumber + claim.Creditor + claim.EffectiveDate + claim.LastName + claim.LoanNumber ;
-             
-
 
         public ActionResult Index()
+        {
+
+            return View();
+        }
+
+        public ActionResult Claims()
         {
             var claimCollection = new List<SearchCriteria>();
 
@@ -60,12 +64,14 @@ namespace JarvisMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Claims");
             }
             else
             {
                 return View();
             }
+
+
         }
         
 

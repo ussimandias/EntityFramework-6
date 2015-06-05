@@ -42,11 +42,13 @@ namespace JarvisMVC.Models
         //public int Age { get; set; }
 
         [Display(Name = "Account")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Please use numeric data only")]
         public int Account { get; set; }
 
         [Display(Name = "Creditor")]
         public string Creditor { get; set; }
 
+        [RegularExpression(@"^\d+$", ErrorMessage = "Use numeric data only")]
         [Display(Name = "Loan Number")]
         public int LoanNumber { get; set; }
 

@@ -1,10 +1,37 @@
 ﻿@model JarvisMVC.Models.SearchCriteria
 
+@*Reset and Cancel Button Confirmation pop-up message on action taken by user*@
+<script>
+    function PostReset() {
+        if (confirm("Do you really want to Reset? This will refresh the Search Criteria"))
+            window.location.href = "/ApplicationSearch/SearchClaim/";
+        else
+            return false;
+    }
+
+    function PostCancel() {
+        if (confirm("Do you really want to cancel? This will redirect back to Home Page"))
+            window.location.href = "/Home/Index/";
+        else
+            return false;
+    }
+
+    function PostSearch() {
+
+        window.location.href = "/ApplicationSearch/SearchClaim/";
+    }
+
+    @*Add focus: Positions the cursor to the first text fields*@
+    $(function () {
+        $('.focus :input:first').focus();
+    });
+
+</script>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
 
     <h4>Search Criteria</h4>
     <hr />
@@ -61,7 +88,7 @@
                 @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.EffectiveDate, "mm/dd/yyyy")
                 </div>
             </div>
 
@@ -69,7 +96,7 @@
                 @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                    @*@Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })*@
                 </div>
             </div>
 
@@ -85,7 +112,7 @@
                 @Html.LabelFor(model => model.LoanNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.LoanNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.LoanNumber, "", new { @class = "text-danger" })
+                    @*@Html.ValidationMessageFor(model => model.LoanNumber)*@
                 </div>
             </div>
 
@@ -93,7 +120,8 @@
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Cancel" class="btn btn-default" onclick="javascript:return PostCancel();" />
                     <input type="submit" value="Reset" class="btn btn-default" onclick="javascript:return PostReset(); " />
-                    <input type="submit" value="Search" class="btn btn-default " />
+                    <input type="submit" value="Search" class="btn btn-default " onclick="javascript:return PostSearch(); " />
+                    @*<input type="submit" value="Create" class="btn btn-default" onclick="@("window.location.href=' " + @Url.Action("AddBook", "SearchClaim") + "'");" />*@
                 </div>
             </div>
         </div>
