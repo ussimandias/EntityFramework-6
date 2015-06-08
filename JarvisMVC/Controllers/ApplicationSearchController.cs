@@ -25,8 +25,15 @@ namespace JarvisMVC.Controllers
 
         public ActionResult Index()
         {
+            var record = _resultsService.FindPerson("Mark", "tany", "1231", "1234s", "Fortegra", DateTimeOffset.Now,
+                1233, "bank", 2325);
 
-            return View();
+            if (ValidateRequest)
+            {
+                
+            }
+
+            return View(record);
         }
 
         public ActionResult Claims()
@@ -78,8 +85,27 @@ namespace JarvisMVC.Controllers
 
 
         }
-        
 
+        // GET: ApplicationSearch/Search
+        public ActionResult Search(int id)
+        {
+            return View();
+        }
+
+        // POST: ApplicationSearch/Search
+        [HttpPost]
+        public ActionResult Search()
+        {
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
         
 
         // GET: ApplicationSearch/Details/5
