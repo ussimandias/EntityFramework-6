@@ -8,13 +8,10 @@ using JarvisMVC.Models;
 namespace JarvisMVC.Controllers
 {
     public class ApplicationSearchController : Controller
-    {
+    {        
         private readonly MockDependencyInjection.ISearchResultsService _resultsService;
 
-   
-    
-
-        public ApplicationSearchController() : this(JarvisMVC.Models.MockDependencyInjection.DependencyFactory.NewResultsService())
+        public ApplicationSearchController() : this(MockDependencyInjection.DependencyFactory.NewResultsService())
         {         
   
         }
@@ -24,29 +21,92 @@ namespace JarvisMVC.Controllers
             _resultsService = resultsService;
         }
 
-        // GET: ApplicationSearch
+        //var data = claim.FirstName + claim.Account + claim.CertificateNumber + claim.CompanyName + claim.ClaimNumber + claim.Creditor + claim.EffectiveDate + claim.LastName + claim.LoanNumber ;
+
         public ActionResult Index()
+        {
+            var record = _resultsService.FindPerson("Mark", "tany", "1231", "1234s", "Fortegra", DateTimeOffset.Now,
+                1233, "bank", 2325);
+
+            if (ValidateRequest)
+            {
+                
+            }
+
+            return View(record);
+        }
+
+        public ActionResult Claims()
+        {
+            var claimCollection = new List<SearchCriteria>();
+
+            if (Session["ClaimCollection"] != null)
+            {
+                claimCollection = (List<SearchCriteria>)Session["ClaimCollection"];
+                return View(claimCollection);
+
+            }
+            else
+            {
+                    return Content("Please enter data!");
+            }
+            
+        }
+
+
+        [HttpGet]
+        public ActionResult SearchClaim()
         {
             return View();
         }
 
-        public ActionResult Search()
-        {
-            var data = this._resultsService.FindPerson("", "", "", "", "", DateTimeOffset.Now, 0, "", 1);
-            return View(data);
-        }
-
-        public ActionResult claimView()
+        [HttpPost]
+        public ActionResult SearchClaim(SearchCriteria newClaim)
         {
             var claimCollection = new List<SearchCriteria>();
 
-            if (Session["SearchCollection"] != null)
+            //if (Session["ClaimCollection"] != null)
+            //{
+                claimCollection = (List<SearchCriteria>)Session["ClaimCollection"];
+
+            //}
+
+            claimCollection.Add(newClaim);
+            Session["ClaimCollection"] = claimCollection;
+
+            if (ModelState.IsValid)
             {
-                claimCollection = (List<SearchCriteria>)Session["SearchCollection"];
+                return RedirectToAction("Claims");
+            }
+            else
+            {
+                return View();
             }
 
-            return View(claimCollection);
+
         }
+
+        // GET: ApplicationSearch/Search
+        public ActionResult Search(int id)
+        {
+            return View();
+        }
+
+        // POST: ApplicationSearch/Search
+        [HttpPost]
+        public ActionResult Search()
+        {
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        
 
         // GET: ApplicationSearch/Details/5
         public ActionResult Details(int id)
@@ -60,29 +120,7 @@ namespace JarvisMVC.Controllers
             return View();
         }
 
-        // POST: ApplicationSearch/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-                return View();
-        }
-
-        [HttpPost]
-        public ActionResult Search(SearchCriteria newClaim)
-        {
-            var claimCollection = new List<SearchCriteria>();
-
-            if (Session["SearchCollection"] != null)
-            {
-                claimCollection.Add((SearchCriteria) Session["SearchCollection"]);
-
-            }
-            claimCollection.Add(newClaim);
-            Session["SearchCollection"] = claimCollection;
-
-            return RedirectToAction("Index");
-
-        }
+       
 
         // GET: ApplicationSearch/Edit/5
         public ActionResult Edit(int id)
@@ -115,8 +153,8 @@ namespace JarvisMVC.Controllers
         // POST: ApplicationSearch/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
-        {
-                return View();
-    }
-    }
+        {          
+                return View();           
+        }
+    }   
 }

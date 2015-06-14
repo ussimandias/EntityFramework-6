@@ -6,7 +6,7 @@ using System.Web;
 
 namespace JarvisMVC.Models
 {
-    public class SearchCriteria
+    public class SearchCriteria : IValidatableObject
     {
 
         [Display(Name = "Last Name")]
@@ -30,7 +30,7 @@ namespace JarvisMVC.Models
         public string CompanyName { get; set; }
 
         [Display(Name = "Effective Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")] 
+        [DataType(DataType.Date)]
         public DateTimeOffset EffectiveDate { get; set; }
 
         //[Display(Name = "Social Security Number")]
@@ -42,15 +42,30 @@ namespace JarvisMVC.Models
         //public int Age { get; set; }
 
         [Display(Name = "Account")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Please use numeric data only")]
         public int Account { get; set; }
 
         [Display(Name = "Creditor")]
         public string Creditor { get; set; }
 
+        [RegularExpression(@"^\d+$", ErrorMessage = "Use numeric data only")]
         [Display(Name = "Loan Number")]
         public int LoanNumber { get; set; }
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var field = new[] { "EffectiveDate" };
 
+            if (EffectiveDate > DateTime.Now)
+            {
+                yield return new ValidationResult(" Date can not be in the future", field);
+            }
+            if (EffectiveDate < DateTime.Now.AddYears(-50))
+            {
+                yield return new ValidationResult("Date can not be 50 years in the past", field);
+            }
+            //throw new NotImplementedException();
+        }
     }
 
     

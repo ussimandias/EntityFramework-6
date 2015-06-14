@@ -1,0 +1,139 @@
+﻿@model JarvisMVC.Models.SearchCriteria
+
+@*Reset and Cancel Button Confirmation pop-up message on action taken by user*@
+<script>
+    function PostReset() {
+        if (confirm("Do you really want to Reset? This will refresh the Search Criteria"))
+            window.location.href = "/ApplicationSearch/SearchClaim/";
+        else
+            return false;
+    }
+
+    function PostCancel() {
+        if (confirm("Do you really want to cancel? This will redirect back to Home Page"))
+            window.location.href = "/Home/Index/";
+        else
+            return false;
+    }
+
+    function PostSearch() {
+
+        window.location.href = "/ApplicationSearch/SearchClaim/";
+    }
+
+    @*Add focus: Positions the cursor to the first text fields*@
+    $(function () {
+        $('.focus :input:first').focus();
+    });
+
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h4>Search Criteria</h4>
+    <hr />
+
+    <div class="row">
+        <div class="form-horizontal span = col-lg-6 left">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 editor-label focus">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClaimNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ClaimNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ClaimNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CertificateNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CertificateNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CertificateNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class=" form-horizontal span = col-lg-6 right">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EffectiveDate, "mm/dd/yyyy")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Creditor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Creditor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Creditor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LoanNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LoanNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.ValidationMessageFor(model => model.LoanNumber)*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Cancel" class="btn btn-default" onclick="javascript:return PostCancel();" />
+                    <input type="submit" value="Reset" class="btn btn-default" onclick="javascript:return PostReset(); "/>
+                    <input type="submit" value="Search" class="btn btn-default"/>
+                    @*<input type="submit" value="Search" class="btn btn-default " onclick="@("window.location.href=' " + @Url.Action("Claims", "ApplicationSearch") + "'");" />*@
+                    @*<input type="submit" value="Create" class="btn btn-default" onclick="@("window.location.href=' " + @Url.Action("AddBook", "SearchClaim") + "'");" />*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
