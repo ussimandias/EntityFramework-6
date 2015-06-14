@@ -1,6 +1,4 @@
-﻿@using JarvisMVC.Models
-
-
+﻿@model JarvisMVC.Models.SearchCriteria
 
 
 
@@ -8,47 +6,7 @@
     ViewBag.Title = "Search";
 }
 
-@*@Html.Hidden("RedirectTo", Url.Action("Index", "ApplicationSearch"))
-@Html.Hidden("RedirectTo", Url.Action("Index", "Home"))*@
 
-<script>
-    //var url = $("#RedirectTo").val();
-    //location.href = url;
-
-    @*Rest and Cancel Button Confirmation pop-up message on action taken by user*@
-    function PostReset() {
-        var result = confirm("This will reset all form fields to original state. Proceed?");
-        if (result) {
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function PostCancel() {
-        var result = confirm("This will discard all changes. Proceed?");
-        if (result) {
-            return "there is a problem";
-        } else {
-            return true;
-        }
-    }
-
-
-    @*Add focus: Positions the cursor to the first text fields*@
-    $(function () {
-        $('.focus :input:first').focus();
-    });
-
-    $(document).ready(function () {
-        $('#datatable').dataTable();
-    });
-
-
-    
-
-</script>
 
 @using (Html.BeginForm())
 {
@@ -163,6 +121,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
 
 
 

@@ -11,11 +11,10 @@ namespace JarvisMVC.Controllers
     {
         private readonly MockDependencyInjection.ISearchResultsService _resultsService;
 
-     
+   
     
-        private readonly ISearchResultsService _resultsService;
 
-        public ApplicationSearchController() : this(DependencyFactory.NewResultsService())
+        public ApplicationSearchController() : this(JarvisMVC.Models.MockDependencyInjection.DependencyFactory.NewResultsService())
         {         
   
         }
